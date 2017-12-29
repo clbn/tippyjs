@@ -144,9 +144,7 @@ function prefix(property) {
  * @return {Element} - the popper element
  */
 function createPopperElement(id, title, options) {
-  var placement = options.placement,
-      distance = options.distance,
-      arrow = options.arrow,
+  var arrow = options.arrow,
       arrowType = options.arrowType,
       arrowTransform = options.arrowTransform,
       animateFill = options.animateFill,
@@ -599,7 +597,7 @@ if (isBrowser) {
   matches = e.matches || e.matchesSelector || e.webkitMatchesSelector || e.mozMatchesSelector || e.msMatchesSelector || function (s) {
     var matches = (this.document || this.ownerDocument).querySelectorAll(s);
     var i = matches.length;
-    while (--i >= 0 && matches.item(i) !== this) {}
+    while (--i >= 0 && matches.item(i) !== this) {} // eslint-disable-line no-empty
     return i > -1;
   };
 }
@@ -647,13 +645,6 @@ function setVisibilityState(els, type) {
     el.setAttribute('data-state', type);
   });
 }
-
-/**
- * Ponyfill for Array.prototype.find
- * @param {Array} arr
- * @param {Function} fn
- * @return item in the array
- */
 
 /**
  * Applies the transition duration to each element
@@ -1524,10 +1515,10 @@ function bindEventListeners() {
       var options = reference._tippy.options;
 
       // Hide all poppers except the one belonging to the element that was clicked IF
-      // `multiple` is false AND they are a touch user, OR
-      // `multiple` is false AND it's triggered by a click
+      // `multiple` is false AND
+      // browser supports touch OR trigger contains click OR trigger contains manual
 
-      if (!options.multiple && browser.usingTouch || !options.multiple && options.trigger.indexOf('click') > -1) {
+      if (!options.multiple && (browser.usingTouch || options.trigger.indexOf('click') > -1 || options.trigger.indexOf('manual') > -1)) {
         return hideAllPoppers(reference._tippy);
       }
 
@@ -1537,7 +1528,7 @@ function bindEventListeners() {
     hideAllPoppers();
   };
 
-  var blurHandler = function blurHandler(event) {
+  var blurHandler = function blurHandler() {
     var _document = document,
         el = _document.activeElement;
 
