@@ -59,12 +59,11 @@ export default function bindEventListeners() {
       const { options } = reference._tippy
 
       // Hide all poppers except the one belonging to the element that was clicked IF
-      // `multiple` is false AND they are a touch user, OR
-      // `multiple` is false AND it's triggered by a click
-      if (
-        (!options.multiple && browser.usingTouch) ||
-        (!options.multiple && options.trigger.indexOf('click') > -1)
-      ) {
+      // `multiple` is false AND
+      // browser supports touch OR trigger contains click OR trigger contains manual
+
+      if (!options.multiple &&
+          (browser.usingTouch || options.trigger.indexOf('click') > -1 || options.trigger.indexOf('manual') > -1)) {
         return hideAllPoppers(reference._tippy)
       }
 
