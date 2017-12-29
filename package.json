@@ -51,6 +51,6 @@
     "rollup-watch": "^3.2.2"
   },
   "dependencies": {
-    "popper.js": "^1.12.9"
+    "popper.js": "clbn/popper.js#popper-only"
   }
 }
