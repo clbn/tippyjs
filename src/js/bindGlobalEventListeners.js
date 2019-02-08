@@ -59,8 +59,9 @@ export function onDocumentClick({ target }) {
   if (reference) {
     const instance = reference._tippy
     const isClickTrigger = includes(instance.props.trigger, 'click')
+    const isManualTrigger = includes(instance.props.trigger, 'manual')
 
-    if (isUsingTouch || isClickTrigger) {
+    if (isUsingTouch || isClickTrigger || isManualTrigger) {
       return hideAll({ exclude: instance, checkHideOnClick: true })
     }
 
